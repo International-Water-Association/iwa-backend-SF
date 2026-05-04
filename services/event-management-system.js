@@ -39,30 +39,7 @@ const CACHE_LIMITS = {
  * SQL query templates for common operations
  * @constant {Object}
  */
-const SQL_QUERIES = {
-    GET_ACTIVE_EVENTS: `
-        SELECT 
-            "SFID",
-            "Name",
-            "EventApi__Display_Name__c",
-            "EventApi__Description__c",
-            "EventApi__Image_URL__c",
-            "EventApi__Status__c",
-            "EventApi__Start_Date__c",
-            "EventApi__End_Date__c",
-            "EventApi__Event_Key__c"
-        FROM events."EventApi__Event__c" 
-        WHERE "EventApi__Status__c" = 'Active'
-        ORDER BY "EventApi__Start_Date__c" DESC
-        LIMIT 100
-    `,
-    // Add more query templates as needed
-};
-function toMultiPicklist(val) {
-    if (Array.isArray(val)) return val.join(';');
-    if (typeof val === 'string') return val;
-    return null;
-}
+
 module.exports = () => ({
     /**
      * Establishes a connection to Salesforce using jsforce.
@@ -70,17 +47,7 @@ module.exports = () => ({
      * @returns {Promise<Object>} The jsforce connection object
      * @throws {ApplicationError} If connection fails
      */
-    async getJSforceConnection(request) {
-        try {
-            return new jsforce.Connection({
-                instanceUrl: process.env.SF_BASEURL,
-                accessToken: request
-            });
-        } catch (error) {
-            console.error('Error connecting to Salesforce:', error);
-            throw new ApplicationError("Failed to connect to Salesforce", error);
-        }
-    },
+  
 
     
    
@@ -584,9 +551,7 @@ module.exports = () => ({
         }
         return result;
     },
-
-    n result;
-    },
+    
 
     /**
      * Inserts or updates a contact form data record in the database.
